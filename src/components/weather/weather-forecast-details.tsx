@@ -1,7 +1,7 @@
-import { useCurrentForecast } from "@/lib/queries";
+import { useWeatherForecast } from "@/lib/queries";
 
 export function WeatherForecastDetails() {
-    const { data } = useCurrentForecast();
+    const { data } = useWeatherForecast();
 
     return (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
@@ -17,14 +17,14 @@ export function WeatherForecastDetails() {
                 label="Wind"
                 value={
                     data &&
-                    `${data.current.wind_speed_10m} ${data.units.wind_speed_10m}`
+                    `${data.current.wind_speed_10m} ${data.current_units.wind_speed_10m}`
                 }
             />
             <WeatherForecastDetailCard
                 label="Precipitation"
                 value={
                     data &&
-                    `${data.current.precipitation} ${data.units.precipitation}`
+                    `${data.current.precipitation} ${data.current_units.precipitation}`
                 }
             />
         </div>

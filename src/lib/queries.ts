@@ -26,14 +26,3 @@ export const useWeatherForecast = () => {
         enabled: !!coordinates,
     });
 };
-
-export const useCurrentForecast = () => {
-    const { data, ...result } = useWeatherForecast();
-
-    return {
-        data: data && { current: data.current, units: data.current_units },
-        ...result,
-    };
-};
-
-export const useDailyForecast = () => {};

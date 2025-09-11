@@ -1,10 +1,10 @@
 import bgTodayLargeSvg from "@/assets/bg-today-large.svg";
-import sunnyImg from "@/assets/icon-sunny.webp";
-import { useCurrentForecast } from "@/lib/queries";
+import { useWeatherForecast } from "@/lib/queries";
 import { formatDate } from "@/utils/time";
+import { weatherCodeToIconSrc } from "@/utils/weather-code";
 
 export function WeatherForecastCard() {
-    const { data, isLoading } = useCurrentForecast();
+    const { data, isLoading } = useWeatherForecast();
 
     if (isLoading || !data) {
         return (
@@ -29,7 +29,11 @@ export function WeatherForecastCard() {
                     </span>
                 </div>
                 <div className="flex items-center gap-5">
-                    <img src={sunnyImg} alt="sunny" className="size-36" />
+                    <img
+                        src={weatherCodeToIconSrc(data.current.weather_code)}
+                        alt=""
+                        className="size-36"
+                    />
                     <span className="font-semibold italic text-8xl">
                         {data.current.temperature_2m}°
                     </span>

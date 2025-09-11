@@ -43,7 +43,7 @@ export interface CurrentUnits {
 }
 
 export interface Daily {
-    time: Date[];
+    time: string[];
     temperature_2m_max: number[];
     temperature_2m_min: number[];
     weather_code: number[];
