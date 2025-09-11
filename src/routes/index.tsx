@@ -1,5 +1,10 @@
-import logo from "@/logo.svg";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { DailyForecastGrid } from "@/components/weather/daily-forecast-grid";
+import { WeatherForecastCard } from "@/components/weather/weather-forecast-card";
+import { WeatherForecastDetails } from "@/components/weather/weather-forecast-details";
 import { createFileRoute } from "@tanstack/react-router";
+import { SearchIcon } from "lucide-react";
 
 export const Route = createFileRoute("/")({
     component: App,
@@ -7,33 +12,37 @@ export const Route = createFileRoute("/")({
 
 function App() {
     return (
-        <div className="text-center">
-            <header className="min-h-screen flex flex-col items-center justify-center bg-[#282c34] text-white text-[calc(10px+2vmin)]">
-                <img
-                    src={logo}
-                    className="h-[40vmin] pointer-events-none animate-[spin_20s_linear_infinite]"
-                    alt="logo"
-                />
-                <p>
-                    Edit <code>src/routes/index.tsx</code> and save to reload.
-                </p>
-                <a
-                    className="text-[#61dafb] hover:underline"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-                <a
-                    className="text-[#61dafb] hover:underline"
-                    href="https://tanstack.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn TanStack
-                </a>
-            </header>
-        </div>
+        <main className="wrapper">
+            <div className="py-16">
+                <h1 className="text-center font-bold font-bricolage text-[52px] leading-[120%] mx-auto">
+                    How&apos;s the sky looking today?
+                </h1>
+            </div>
+            <div className="space-y-8 lg:space-y-12">
+                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mx-auto max-w-xl w-full">
+                    <Input
+                        icon={SearchIcon}
+                        placeholder="Search for a place..."
+                        className="w-full md:max-w-130"
+                    />
+                    <Button className="w-full md:w-max">Search</Button>
+                </div>
+                <div className="flex flex-col lg:flex-row gap-8">
+                    <div className="flex flex-col w-full gap-5 lg:gap-8">
+                        <div className="flex flex-col w-full gap-5 lg:gap-8">
+                            <WeatherForecastCard />
+                            <WeatherForecastDetails />
+                        </div>
+                        <div className="flex flex-col gap-5">
+                            <span className="text-xl font-semibold">
+                                Daily Forecast
+                            </span>
+                            <DailyForecastGrid />
+                        </div>
+                    </div>
+                    <div className="w-96 bg-surface rounded-3xl shrink-0"></div>
+                </div>
+            </div>
+        </main>
     );
 }

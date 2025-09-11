@@ -40,17 +40,28 @@
     --font-sans: "DM Sans Variable", sans-serif;
     --font-bricolage: "Bricolage Grotesque";
     --font-bricolage--font-weight: 700;
+
+    --text-sm: 1rem;
+    --text-base: 1.125rem;
+    --text-3xl: 1.75rem;
+    --text-4xl: 2rem;
+
+    --radius-3xl: 20px;
 }
 
-@utility container {
-    margin-inline: auto;
-    padding-inline: 2rem;
-}
+@layer base {
+    * {
+        @apply border-neutral-600;
+    }
 
-body {
-    @apply m-0;
-    font-family: var(--font-sans);
-    font-size: 18px;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    body {
+        @apply bg-background text-foreground font-sans m-0 text-base;
+    }
+
+    .wrapper {
+        width: 100%;
+        margin-inline: auto;
+        padding-inline: 2rem;
+        max-width: 80rem;
+    }
 }
