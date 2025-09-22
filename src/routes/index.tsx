@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DailyForecastGrid } from "@/components/weather/daily-forecast-grid";
+import { HourlyForecastCard } from "@/components/weather/hourly-forecast-card";
 import { WeatherForecastCard } from "@/components/weather/weather-forecast-card";
 import { WeatherForecastDetails } from "@/components/weather/weather-forecast-details";
 import { createFileRoute } from "@tanstack/react-router";
@@ -40,7 +41,7 @@ function App() {
                             <DailyForecastGrid />
                         </div>
                     </div>
-                    <div className="w-96 bg-surface rounded-3xl shrink-0"></div>
+                    <HourlyForecastCard />
                 </div>
             </div>
         </main>

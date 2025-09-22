@@ -64,4 +64,27 @@
         padding-inline: 2rem;
         max-width: 80rem;
     }
+
+    @supports not selector(::-webkit-scrollbar) {
+        .styled-scroll {
+            scrollbar-width: thin;
+        }
+    }
+
+    .styled-scroll {
+        &::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: var(--color-neutral-700);
+            border: 1px var(--color-neutral-600) solid;
+            border-radius: 12px;
+            width: 5px;
+        }
+    }
 }

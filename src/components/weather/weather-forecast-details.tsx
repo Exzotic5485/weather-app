@@ -1,4 +1,5 @@
 import { useWeatherForecast } from "@/lib/queries";
+import { formatTemperature } from "@/utils/temperature";
 
 export function WeatherForecastDetails() {
     const { data } = useWeatherForecast();
@@ -7,7 +8,9 @@ export function WeatherForecastDetails() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
             <WeatherForecastDetailCard
                 label="Feels Like"
-                value={data && `${data.current.apparent_temperature}°`}
+                value={
+                    data && formatTemperature(data.current.apparent_temperature)
+                }
             />
             <WeatherForecastDetailCard
                 label="Humidity"
@@ -17,14 +20,14 @@ export function WeatherForecastDetails() {
                 label="Wind"
                 value={
                     data &&
-                    `${data.current.wind_speed_10m} ${data.current_units.wind_speed_10m}`
+                    `${data.current.wind_speed_10m.toFixed(0)} ${data.units.wind_speed_10m}`
                 }
             />
             <WeatherForecastDetailCard
                 label="Precipitation"
                 value={
                     data &&
-                    `${data.current.precipitation} ${data.current_units.precipitation}`
+                    `${data.current.precipitation} ${data.units.precipitation}`
                 }
             />
         </div>
