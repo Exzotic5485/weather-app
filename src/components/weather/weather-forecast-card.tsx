@@ -29,7 +29,7 @@ export function WeatherForecastCard() {
                         {location?.name}, {location?.country}
                     </span>
                     <span className="font-medium text-white/80">
-                        {formatDate(new Date())}
+                        {formatDate(new Date(), weather.timezone)}
                     </span>
                 </div>
                 <div className="flex items-center gap-5">

@@ -68,14 +68,15 @@ interface HourlyUnitsResponse {
     weather_code: string;
 }
 
-interface Forecast {
+export interface Forecast {
     current: Current;
     hourly: Hourly[];
     daily: Daily[];
     units: CurrentUnitsResponse & HourlyUnitsResponse & DailyUnitsResponse;
+    timezone: string;
 }
 
-interface Current {
+export interface Current {
     time: string;
     interval: number;
     temperature_2m: number;
@@ -86,13 +87,13 @@ interface Current {
     apparent_temperature: number;
 }
 
-interface Hourly {
+export interface Hourly {
     time: string;
     temperature_2m: number;
     weather_code: number;
 }
 
-interface Daily {
+export interface Daily {
     time: string;
     temperature_2m_max: number;
     temperature_2m_min: number;
@@ -151,6 +152,7 @@ function transformForecastResponse(data: ForecastResponse): Forecast {
             ...data.daily_units,
             ...data.hourly_units,
         },
+        timezone: data.timezone,
     };
 }
 

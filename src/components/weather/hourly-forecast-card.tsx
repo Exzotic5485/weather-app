@@ -1,6 +1,12 @@
 import { useWeatherForecast } from "@/lib/queries";
 import { formatTemperature } from "@/utils/temperature";
-import { dateToTime, isAfterNowInclusive, isToday } from "@/utils/time";
+import {
+    dateToTime,
+    formatDate,
+    isAfterNowInclusive,
+    isHourZero,
+    isToday,
+} from "@/utils/time";
 import { weatherCodeToIconSrc } from "@/utils/weather-code";
 
 export function HourlyForecastCard() {
@@ -16,8 +22,9 @@ export function HourlyForecastCard() {
                 </div>
                 <div className="flex flex-col gap-4 px-6">
                     {data?.hourly
-                        .filter((hourly) => isToday(hourly.time))
-                        .filter((hourly) => isAfterNowInclusive(hourly.time))
+                        .filter((hourly) =>
+                            isAfterNowInclusive(hourly.time, data.timezone),
+                        )
                         .map((hourly) => (
                             <HourForecastCard
                                 key={hourly.time}
@@ -33,7 +40,7 @@ export function HourlyForecastCard() {
 }
 
 type HourForecastCardProps = {
-    time: Date | string;
+    time: string;
     temperature: number;
     weatherCode: number;
 };
@@ -44,18 +51,25 @@ export function HourForecastCard({
     weatherCode,
 }: HourForecastCardProps) {
     return (
-        <div className="bg-surface-hover py-2.5 pl-3 pr-4 rounded-lg flex items-center gap-2">
-            <img
-                className="size-10"
-                src={weatherCodeToIconSrc(weatherCode)}
-                alt=""
-            />
-            <span className="flex-1 font-medium text-xl">
-                {dateToTime(time)}
-            </span>
-            <span className="text-sm font-medium">
-                {formatTemperature(temperature)}
-            </span>
+        <div id={time} className="grid gap-1">
+            {!isToday(time) && isHourZero(time) && (
+                <span className="text-muted-foreground">
+                    {formatDate(time, undefined, true)}
+                </span>
+            )}
+            <div className="bg-surface-hover py-2.5 pl-3 pr-4 rounded-lg flex items-center gap-2">
+                <img
+                    className="size-10"
+                    src={weatherCodeToIconSrc(weatherCode)}
+                    alt=""
+                />
+                <span className="flex-1 font-medium text-xl">
+                    {dateToTime(time)}
+                </span>
+                <span className="text-sm font-medium">
+                    {formatTemperature(temperature)}
+                </span>
+            </div>
         </div>
     );
 }
