@@ -1,3 +1,5 @@
+import * as v from "valibot";
+
 export interface Coordinates {
     latitude: number;
     longitude: number;
@@ -34,6 +36,13 @@ export interface ReverseGeocode {
     lon: number;
     country: string;
 }
+
+export const locationSchema = v.object({
+    latitude: v.number(),
+    longitude: v.number(),
+    name: v.string(),
+    country: v.string(),
+});
 
 export async function getLocation(): Promise<Location> {
     try {
@@ -73,7 +82,9 @@ export function getGPSLocation(): Promise<GeolocationPosition> {
         if (!navigator.geolocation)
             reject("browser does not support geolocation api");
 
-        navigator.geolocation.getCurrentPosition(resolve, reject);
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+            timeout: 1000 * 15,
+        });
     });
 }
 
@@ -99,6 +110,21 @@ export async function reverseGeocode(
     const data = await response.json();
 
     return data[0];
+}
+
+export async function geocodeSearch(
+    query: string,
+    max = 5,
+): Promise<Location[]> {
+    const response = await fetch(
+        `https://geocoding-api.open-meteo.com/v1/search?name=${query}&count=${max}&language=en&format=json`,
+    );
+
+    if (response.status !== 200) return [];
+
+    const data = await response.json();
+
+    return data.results;
 }
 
 function resolveCountryName(countryCode: string) {

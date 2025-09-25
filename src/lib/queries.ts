@@ -1,4 +1,4 @@
-import { getLocation } from "@/utils/location";
+import { geocodeSearch, getLocation } from "@/utils/location";
 import { getWeatherForecast } from "@/utils/weather";
 import { useQuery } from "@tanstack/react-query";
 
@@ -6,6 +6,7 @@ export const useLocation = () =>
     useQuery({
         queryKey: ["location"],
         queryFn: getLocation,
+        staleTime: Number.POSITIVE_INFINITY,
     });
 
 export const useWeatherForecast = () => {
@@ -26,3 +27,11 @@ export const useWeatherForecast = () => {
         enabled: !!coordinates,
     });
 };
+
+export const useGeocodeSearch = (query: string, max?: number) =>
+    useQuery({
+        queryKey: ["search", query],
+        queryFn: () => geocodeSearch(query, max),
+        initialData: [],
+        enabled: !!query,
+    });

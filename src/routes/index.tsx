@@ -1,19 +1,37 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { CurrentLocationButton } from "@/components/search/current-location-button";
+import { LocationSearchInput } from "@/components/search/location-search-input";
 import { DailyForecastGrid } from "@/components/weather/daily-forecast-grid";
 import { HourlyForecastCard } from "@/components/weather/hourly-forecast-card";
 import { WeatherForecastCard } from "@/components/weather/weather-forecast-card";
 import { WeatherForecastDetails } from "@/components/weather/weather-forecast-details";
+import { locationSchema } from "@/utils/location";
 import { createFileRoute } from "@tanstack/react-router";
-import { SearchIcon } from "lucide-react";
+import * as v from "valibot";
+
+const indexSearchSchema = v.object({
+    location: v.optional(locationSchema),
+});
 
 export const Route = createFileRoute("/")({
     component: App,
+    validateSearch: indexSearchSchema,
+    beforeLoad: ({ search, context }) => {
+        if (!search.location) {
+            context.queryClient.invalidateQueries({ queryKey: ["location"] });
+            return;
+        }
+
+        context.queryClient.setQueryDefaults(["location"], {
+            initialData: search.location,
+        });
+
+        context.queryClient.setQueryData(["location"], search.location);
+    },
 });
 
 function App() {
     return (
-        <main className="wrapper">
+        <main className="wrapper pb-12 md:pb-20">
             <div className="py-16">
                 <h1 className="text-center font-bold font-bricolage text-[52px] leading-[120%] mx-auto">
                     How&apos;s the sky looking today?
@@ -21,12 +39,8 @@ function App() {
             </div>
             <div className="space-y-8 lg:space-y-12">
                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 mx-auto max-w-xl w-full">
-                    <Input
-                        icon={SearchIcon}
-                        placeholder="Search for a place..."
-                        className="w-full md:max-w-130"
-                    />
-                    <Button className="w-full md:w-max">Search</Button>
+                    <LocationSearchInput />
+                    <CurrentLocationButton />
                 </div>
                 <div className="flex flex-col lg:flex-row gap-8">
                     <div className="flex flex-col w-full gap-5 lg:gap-8">
