@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/popover";
 import { useGeocodeSearch } from "@/lib/queries";
 import { cn } from "@/lib/utils";
-import type { Location } from "@/utils/location";
+import { type Location, formatLocationName } from "@/utils/location";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { SearchIcon } from "lucide-react";
@@ -48,6 +48,11 @@ export function LocationSearchInput() {
                         !(e.relatedTarget instanceof HTMLButtonElement) &&
                         setOpen(false)
                     }
+                    onKeyDown={(e) =>
+                        e.key.toLowerCase() === "enter" &&
+                        data.length &&
+                        handleLocationSelect(data[0])
+                    }
                 />
             </PopoverAnchor>
             <PopoverContent
@@ -61,7 +66,7 @@ export function LocationSearchInput() {
                 className="w-[var(--radix-popover-trigger-width)]"
             >
                 <div className="flex flex-col gap-2">
-                    {data.map((location, i) => (
+                    {data.map((location) => (
                         <button
                             type="button"
                             key={`${location.longitude}+${location.latitude}`}
@@ -75,7 +80,7 @@ export function LocationSearchInput() {
                             )}
                             data-location
                         >
-                            {location.name}, {location.country}
+                            {formatLocationName(location)}
                         </button>
                     ))}
                 </div>

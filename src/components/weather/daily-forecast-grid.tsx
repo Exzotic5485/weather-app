@@ -17,7 +17,7 @@ export function DailyForecastGrid() {
                           weatherCode={daily.weather_code}
                           minTemperature={daily.temperature_2m_min}
                           maxTemperature={daily.temperature_2m_max}
-                          selected={i === 0}
+                          selected={false}
                       />
                   ))
                 : Array.from({ length: 7 }, (_, i) => i).map((i) => (

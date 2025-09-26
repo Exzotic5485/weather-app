@@ -1,5 +1,6 @@
 import bgTodayLargeSvg from "@/assets/bg-today-large.svg";
 import { useLocation, useWeatherForecast } from "@/lib/queries";
+import { formatLocationName } from "@/utils/location";
 import { formatTemperature } from "@/utils/temperature";
 import { formatDate } from "@/utils/time";
 import { weatherCodeToIconSrc } from "@/utils/weather-code";
@@ -8,7 +9,7 @@ export function WeatherForecastCard() {
     const { data: weather, isLoading } = useWeatherForecast();
     const { data: location } = useLocation();
 
-    if (isLoading || !weather) {
+    if (isLoading || !weather || !location) {
         return (
             <div className="h-71.5 rounded-3xl flex flex-col justify-center items-center bg-primary">
                 <span className="font-medium">Loading...</span>
@@ -26,7 +27,7 @@ export function WeatherForecastCard() {
             <div className="flex items-center px-6 my-auto">
                 <div className="flex-1 flex flex-col">
                     <span className="font-bold text-3xl">
-                        {location?.name}, {location?.country}
+                        {formatLocationName(location)}
                     </span>
                     <span className="font-medium text-white/80">
                         {formatDate(new Date(), weather.timezone)}

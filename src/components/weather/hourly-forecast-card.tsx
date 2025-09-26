@@ -53,7 +53,7 @@ export function HourForecastCard({
     return (
         <div id={time} className="grid gap-1">
             {!isToday(time) && isHourZero(time) && (
-                <span className="text-muted-foreground">
+                <span className="text-sm font-medium tracking-tight text-muted-foreground">
                     {formatDate(time, undefined, true)}
                 </span>
             )}

@@ -127,6 +127,12 @@ export async function geocodeSearch(
     return data.results;
 }
 
+export function formatLocationName(location: Location) {
+    return location.name === location.country
+        ? location.name
+        : `${location.name}, ${location.country}`;
+}
+
 function resolveCountryName(countryCode: string) {
     const displayNames = new Intl.DisplayNames("en", { type: "region" });
     return displayNames.of(countryCode) ?? "";
