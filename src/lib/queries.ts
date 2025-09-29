@@ -1,3 +1,4 @@
+import { useUnitsStore } from "@/lib/store";
 import { geocodeSearch, getLocation } from "@/utils/location";
 import { getWeatherForecast } from "@/utils/weather";
 import { useQuery } from "@tanstack/react-query";
@@ -11,9 +12,10 @@ export const useLocation = () =>
 
 export const useWeatherForecast = () => {
     const { data: coordinates } = useLocation();
+    const [units] = useUnitsStore();
 
     return useQuery({
-        queryKey: ["weather", coordinates],
+        queryKey: ["weather", coordinates, units],
         queryFn: () => {
             if (!coordinates) {
                 throw new Error("coordinates are undefined");
@@ -22,6 +24,7 @@ export const useWeatherForecast = () => {
             return getWeatherForecast(
                 coordinates.latitude,
                 coordinates.longitude,
+                units,
             );
         },
         enabled: !!coordinates,

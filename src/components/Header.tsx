@@ -1,4 +1,5 @@
 import Logo from "@/components/logo";
+import { UnitsDropdown } from "@/components/units-dropdown";
 import { Link } from "@tanstack/react-router";
 
 export function Header() {
@@ -7,6 +8,7 @@ export function Header() {
             <Link to="/">
                 <Logo />
             </Link>
+            <UnitsDropdown />
         </header>
     );
 }

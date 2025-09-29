@@ -1,8 +1,6 @@
-const WEATHER_API_URL = "https://api.open-meteo.com/v1";
+import type { Units } from "@/utils/units";
 
-type TemperatureUnit = "celsius" | "fahrenheit";
-type WindSpeedUnit = "kmh" | "ms" | "mph" | "kn";
-type PrecipitationUnit = "mm" | "inch";
+const WEATHER_API_URL = "https://api.open-meteo.com/v1";
 
 interface ForecastResponse {
     latitude: number;
@@ -100,16 +98,10 @@ export interface Daily {
     weather_code: number;
 }
 
-interface ForecastConfiguration {
-    temperatureUnit?: TemperatureUnit;
-    windSpeedUnit?: WindSpeedUnit;
-    precipitationUnit?: PrecipitationUnit;
-}
-
 export async function getWeatherForecast(
     latitude: number,
     longitude: number,
-    config?: ForecastConfiguration,
+    units: Units,
 ) {
     const params = new URLSearchParams({
         latitude: String(latitude),
@@ -129,6 +121,9 @@ export async function getWeatherForecast(
             "apparent_temperature",
             "weather_code",
         ].join(","),
+        temperature_unit: units.temperature,
+        wind_speed_unit: units.windSpeed,
+        precipitation_unit: units.precipitation,
     });
 
     const response = await fetch(`${WEATHER_API_URL}/forecast?${params}`);
