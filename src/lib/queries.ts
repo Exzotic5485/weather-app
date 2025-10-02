@@ -8,6 +8,9 @@ export const useLocation = () =>
         queryKey: ["location"],
         queryFn: getLocation,
         staleTime: Number.POSITIVE_INFINITY,
+        gcTime: Number.POSITIVE_INFINITY,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false
     });
 
 export const useWeatherForecast = () => {

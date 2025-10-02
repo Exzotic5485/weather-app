@@ -1,3 +1,4 @@
+import { focusOutlineClass } from "@/components/ui/common";
 import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
 
@@ -18,7 +19,8 @@ export function Input({
             )}
             <input
                 className={cn(
-                    "peer bg-surface text-surface-foreground h-14 px-6 py-2 rounded-xl text-xl font-medium hover:bg-surface-hover placeholder:text-muted-foreground focus-visible:bg-surface-hover focus-visible:outline-2 focus-visible:outline-primary outline-offset-2 outline-transparent transition-colors",
+                    "peer bg-surface text-surface-foreground h-14 px-6 py-2 rounded-xl text-xl font-medium hover:bg-surface-hover placeholder:text-muted-foreground focus-visible:bg-surface-hover",
+                    focusOutlineClass,
                     Icon && "px-16",
                     className,
                 )}

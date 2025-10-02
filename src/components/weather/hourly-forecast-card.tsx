@@ -1,8 +1,10 @@
+import { DaySelect } from "@/components/weather/day-select";
 import { useWeatherForecast } from "@/lib/queries";
 import { formatTemperature } from "@/utils/temperature";
 import {
-    dateToTime,
+    DATE_FORMATS,
     formatDate,
+    formatDateTime,
     isAfterNowInclusive,
     isHourZero,
     isToday,
@@ -15,10 +17,11 @@ export function HourlyForecastCard() {
     return (
         <div className="w-96 bg-surface rounded-3xl shrink-0 flex flex-col max-h-176 overflow-hidden pb-6">
             <div className="h-full overflow-y-auto styled-scroll">
-                <div className="bg-surface p-6 flex items-center justify-between sticky top-0">
+                <div className="bg-surface p-6 pb-5 flex items-center justify-between sticky top-0">
                     <span className="text-xl font-semibold">
                         Hourly forecast
                     </span>
+                    <DaySelect />
                 </div>
                 <div className="flex flex-col gap-4 px-6">
                     {data?.hourly
@@ -52,9 +55,9 @@ export function HourForecastCard({
 }: HourForecastCardProps) {
     return (
         <div id={time} className="grid gap-1">
-            {!isToday(time) && isHourZero(time) && (
+            {!isToday(time) && isHourZero(`${time}Z`) && (
                 <span className="text-sm font-medium tracking-tight text-muted-foreground">
-                    {formatDate(time, undefined, true)}
+                    {formatDate(time, DATE_FORMATS.ALTERNATIVE)}
                 </span>
             )}
             <div className="bg-surface-hover py-2.5 pl-3 pr-4 rounded-lg flex items-center gap-2">
@@ -64,7 +67,7 @@ export function HourForecastCard({
                     alt=""
                 />
                 <span className="flex-1 font-medium text-xl">
-                    {dateToTime(time)}
+                    {formatDateTime(time)}
                 </span>
                 <span className="text-sm font-medium">
                     {formatTemperature(temperature)}

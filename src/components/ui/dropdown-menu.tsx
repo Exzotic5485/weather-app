@@ -1,10 +1,10 @@
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
-import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react";
+import { CheckIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-const dropdownItemClasses =
-    "text-white focus:bg-surface-hover relative flex cursor-default items-center gap-2 rounded-lg px-2 py-2.5 text-sm font-medium outline-hidden select-none";
+export const dropdownItemClass =
+    "text-white focus:bg-surface-hover relative flex cursor-default items-center gap-2 rounded-lg px-2 py-2.5 text-sm font-medium outline-hidden select-none data-[state=checked]:bg-surface-hover";
 
 function DropdownMenu({
     ...props
@@ -79,7 +79,7 @@ function DropdownMenuItem({
             data-slot="dropdown-menu-item"
             data-inset={inset}
             data-variant={variant}
-            className={cn(dropdownItemClasses, className)}
+            className={cn(dropdownItemClass, className)}
             {...props}
         />
     );
@@ -133,7 +133,7 @@ function DropdownMenuRadioItem({
         <DropdownMenuPrimitive.RadioItem
             data-slot="dropdown-menu-radio-item"
             className={cn(
-                dropdownItemClasses,
+                dropdownItemClass,
                 "data-[state=checked]:bg-surface-hover data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
                 className,
             )}
@@ -197,16 +197,9 @@ function DropdownMenuShortcut({
 }
 
 export {
-    DropdownMenu,
-    DropdownMenuPortal,
-    DropdownMenuTrigger,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuLabel,
-    DropdownMenuItem,
-    DropdownMenuCheckboxItem,
-    DropdownMenuRadioGroup,
+    DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent,
+    DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
+    DropdownMenuShortcut, DropdownMenuTrigger
 };

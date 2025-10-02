@@ -2,7 +2,7 @@ import bgTodayLargeSvg from "@/assets/bg-today-large.svg";
 import { useLocation, useWeatherForecast } from "@/lib/queries";
 import { formatLocationName } from "@/utils/location";
 import { formatTemperature } from "@/utils/temperature";
-import { formatDate } from "@/utils/time";
+import { DATE_FORMATS, formatDate } from "@/utils/time";
 import { weatherCodeToIconSrc } from "@/utils/weather-code";
 
 export function WeatherForecastCard() {
@@ -30,7 +30,11 @@ export function WeatherForecastCard() {
                         {formatLocationName(location)}
                     </span>
                     <span className="font-medium text-white/80">
-                        {formatDate(new Date(), weather.timezone)}
+                        {formatDate(
+                            new Date(),
+                            DATE_FORMATS.LONG,
+                            weather.timezone,
+                        )}
                     </span>
                 </div>
                 <div className="flex items-center gap-5">

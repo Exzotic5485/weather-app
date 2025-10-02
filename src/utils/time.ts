@@ -2,25 +2,47 @@ import { fromZonedTime } from "date-fns-tz";
 
 type Time = Date | string;
 
+type DateFormats = Readonly<Record<string, Intl.DateTimeFormatOptions>>;
+
 export const LOCALE = Intl.DateTimeFormat().resolvedOptions().locale;
 
-export function formatDate(time: Time, timeZone?: string, short = false) {
-    if (short) {
-        return timeToDate(time).toLocaleDateString(LOCALE, {
-            day: "2-digit",
-            month: "long",
-            weekday: "long",
-            timeZone,
-        });
-    }
+export const DAYS = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+] as const;
 
-    return timeToDate(time).toLocaleDateString(LOCALE, {
+export const DATE_FORMATS = {
+    LONG: {
         day: "2-digit",
         month: "short",
         weekday: "long",
         year: "numeric",
         hour: "2-digit",
         minute: "2-digit",
+    },
+    SHORT: {
+        day: "2-digit",
+        month: "short",
+    },
+    ALTERNATIVE: {
+        day: "2-digit",
+        month: "long",
+        weekday: "long",
+    },
+} satisfies DateFormats;
+
+export function formatDate(
+    time: Time,
+    options: Intl.DateTimeFormatOptions,
+    timeZone?: string,
+) {
+    return timeToDate(time).toLocaleDateString(LOCALE, {
+        ...options,
         timeZone,
     });
 }
@@ -34,11 +56,30 @@ export function dateToDay(
     });
 }
 
-export function dateToTime(time: Time) {
+export function formatDateTime(time: Time) {
     const hours = timeToDate(time).getHours();
 
     return `${hours % 12 === 0 ? 12 : hours % 12} ${hours > 12 || hours === 0 ? "PM" : "AM"}`;
 }
+
+export function getNextTimeByDay(day: number) {
+    const date = new Date();
+    date.setUTCHours(0);
+    date.setUTCMinutes(0, 0, 0);
+    date.setUTCSeconds(0, 0);
+
+    const days = getDaysToNextWeekDay(day, date);
+
+    date.setUTCDate(date.getUTCDate() + days);
+
+    return dateToTime(date);
+}
+
+export const dateToTime = (date: Date) =>
+    date.toISOString().replace(/:\d\d.\d+Z$/g, "");
+
+export const getDaysToNextWeekDay = (day: number, date = new Date()) =>
+    (day - date.getUTCDay() + DAYS.length) % DAYS.length;
 
 export const isToday = (time: Time) =>
     timeToDate(time).getDate() === new Date().getDate();

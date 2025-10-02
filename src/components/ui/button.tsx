@@ -1,7 +1,8 @@
+import { focusOutlineClass } from "@/components/ui/common";
 import { type VariantProps, cva } from "class-variance-authority";
 
 const buttonVariants = cva(
-    "flex items-center gap-2.5 hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 transition-all",
+    `flex items-center gap-2.5 hover:cursor-pointer ${focusOutlineClass}`,
     {
         variants: {
             variant: {
