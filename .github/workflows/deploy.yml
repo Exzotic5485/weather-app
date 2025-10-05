@@ -34,12 +34,11 @@ jobs:
               uses: oven-sh/setup-bun@v2
               with:
                   bun-version: latest
+                  env:
+                      VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
             - name: Install dependencies
               run: bun ci
             - name: Build
-              with:
-                  env:
-                      VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
               run: bun run build
             - name: Setup Pages
               uses: actions/configure-pages@v5
