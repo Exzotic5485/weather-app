@@ -12,21 +12,37 @@ export interface Location {
     longitude: number;
 }
 
-export interface Geolocation {
-    status: string;
+export interface IPGeolocation {
+    success: boolean;
+    data: IPGeolocationData;
+}
+
+export interface IPGeolocationData {
+    ip: string;
+    continent: string;
+    continentCode: string;
     country: string;
     countryCode: string;
+    capital: string;
     region: string;
-    regionName: string;
+    regionCode: string;
     city: string;
-    zip: string;
-    lat: number;
-    lon: number;
-    timezone: string;
-    isp: string;
-    org: string;
-    as: string;
-    query: string;
+    postal_Code: string;
+    dial_code: string;
+    is_in_eu: boolean;
+    latitude: number;
+    longitude: number;
+    accuracy_radius: number;
+    timezone: IPGeolocationTimezone;
+}
+
+export interface IPGeolocationTimezone {
+    time_zone: string;
+    abbr: string;
+    offset: number;
+    is_dst: boolean;
+    utc: string;
+    current_time: Date;
 }
 
 export interface ReverseGeocode {
@@ -63,8 +79,8 @@ export async function getLocation(): Promise<Location> {
             return {
                 country: resolveCountryName(ipLocation.countryCode),
                 name: ipLocation.city,
-                longitude: ipLocation.lon,
-                latitude: ipLocation.lat,
+                longitude: ipLocation.longitude,
+                latitude: ipLocation.latitude,
             };
         } catch {
             return {
@@ -88,13 +104,17 @@ export function getGPSLocation(): Promise<GeolocationPosition> {
     });
 }
 
-export async function getIPLocation(): Promise<Geolocation> {
-    const response = await fetch("http://ip-api.com/json");
+export async function getIPLocation(): Promise<IPGeolocationData> {
+    const response = await fetch("https://api.ipwho.org/me");
 
     if (response.status !== 200)
         throw new Error("failed to get location via ip");
 
-    return response.json();
+    const { data, success }: IPGeolocation = await response.json();
+
+    if (!success) throw new Error("Failed to get location");
+
+    return data;
 }
 
 export async function reverseGeocode(
