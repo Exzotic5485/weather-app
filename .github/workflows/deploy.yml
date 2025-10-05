@@ -40,6 +40,7 @@ jobs:
               run: bun run build
               env:
                   VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
+                  NODE_ENV: production
             - name: Setup Pages
               uses: actions/configure-pages@v5
             - name: Upload artifact
