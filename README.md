@@ -38,7 +38,7 @@ Users should be able to:
 ### Links
 
 - Solution URL:
-- Live Site URL: https://exzotic5485.github.io/weather-app/
+- Live Site URL: https://weather-app.exzotic.dev
 
 ### Built with
 
