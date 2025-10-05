@@ -10,7 +10,7 @@ export function DailyForecastGrid() {
     return (
         <div className="grid grid-cols-3 md:grid-cols-7 gap-4">
             {data
-                ? data.daily.map((daily, i) => (
+                ? data.daily.map((daily) => (
                       <DailyForecastCard
                           key={daily.time}
                           time={daily.time}
