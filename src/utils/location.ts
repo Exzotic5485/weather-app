@@ -121,7 +121,7 @@ export async function reverseGeocode(
     coordinates: Coordinates,
 ): Promise<ReverseGeocode> {
     const response = await fetch(
-        `http://api.openweathermap.org/geo/1.0/reverse?lat=${coordinates.latitude}&lon=${coordinates.longitude}&limit=1&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`,
+        `https://api.openweathermap.org/geo/1.0/reverse?lat=${coordinates.latitude}&lon=${coordinates.longitude}&limit=1&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`,
     );
 
     if (response.status !== 200)
