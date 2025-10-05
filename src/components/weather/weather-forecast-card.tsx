@@ -18,35 +18,33 @@ export function WeatherForecastCard() {
     }
     return (
         <div
-            className="h-71.5 rounded-3xl flex flex-col justify-center"
+            className="h-71.5 rounded-3xl flex flex-col md:flex-row items-center gap-4 px-6 py-10 my-auto"
             style={{
                 background: `var(--primary) url('${bgTodayLargeSvg}') center no-repeat`,
                 backgroundSize: "cover",
             }}
         >
-            <div className="flex items-center px-6 my-auto">
-                <div className="flex-1 flex flex-col">
-                    <span className="font-bold text-3xl">
-                        {formatLocationName(location)}
-                    </span>
-                    <span className="font-medium text-white/80">
-                        {formatDate(
-                            new Date(),
-                            DATE_FORMATS.LONG,
-                            weather.timezone,
-                        )}
-                    </span>
-                </div>
-                <div className="flex items-center gap-5">
-                    <img
-                        src={weatherCodeToIconSrc(weather.current.weather_code)}
-                        alt=""
-                        className="size-36"
-                    />
-                    <span className="font-semibold italic text-8xl">
-                        {formatTemperature(weather.current.temperature_2m)}
-                    </span>
-                </div>
+            <div className="flex-1 flex flex-col gap-3 md:gap-0 text-center md:text-left">
+                <span className="font-bold text-3xl">
+                    {formatLocationName(location)}
+                </span>
+                <span className="font-medium text-white/80">
+                    {formatDate(
+                        new Date(),
+                        DATE_FORMATS.LONG,
+                        weather.timezone,
+                    )}
+                </span>
+            </div>
+            <div className="flex items-center gap-5">
+                <img
+                    src={weatherCodeToIconSrc(weather.current.weather_code)}
+                    alt=""
+                    className="size-36"
+                />
+                <span className="font-semibold italic text-8xl">
+                    {formatTemperature(weather.current.temperature_2m)}
+                </span>
             </div>
         </div>
     );

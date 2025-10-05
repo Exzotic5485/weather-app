@@ -1,8 +1,8 @@
 import { fromZonedTime } from "date-fns-tz";
 
-type Time = Date | string;
+export type Time = Date | string;
 
-type DateFormats = Readonly<Record<string, Intl.DateTimeFormatOptions>>;
+export type DateFormats = Readonly<Record<string, Intl.DateTimeFormatOptions>>;
 
 export const LOCALE = Intl.DateTimeFormat().resolvedOptions().locale;
 
@@ -57,9 +57,9 @@ export function dateToDay(
 }
 
 export function formatDateTime(time: Time) {
-    const hours = timeToDate(time).getHours();
+    const hours = timeToDate(time).getUTCHours();
 
-    return `${hours % 12 === 0 ? 12 : hours % 12} ${hours > 12 || hours === 0 ? "PM" : "AM"}`;
+    return `${hours % 12 === 0 ? 12 : hours % 12} ${hours >= 12 ? "PM" : "AM"}`;
 }
 
 export function getNextTimeByDay(day: number) {
@@ -75,6 +75,8 @@ export function getNextTimeByDay(day: number) {
     return dateToTime(date);
 }
 
+export const getDay = () => new Date().getUTCDay();
+
 export const dateToTime = (date: Date) =>
     date.toISOString().replace(/:\d\d.\d+Z$/g, "");
 
@@ -82,13 +84,15 @@ export const getDaysToNextWeekDay = (day: number, date = new Date()) =>
     (day - date.getUTCDay() + DAYS.length) % DAYS.length;
 
 export const isToday = (time: Time) =>
-    timeToDate(time).getDate() === new Date().getDate();
+    timeToDate(time).getUTCDate() === new Date().getUTCDate();
 
 export const isAfterNowInclusive = (time: string, timeZone: string) =>
     fromZonedTime(time.replace(/(?<=T\d{2}:)\d\d/, "59"), timeZone) >=
     new Date();
 
-const timeToDate = (time: Time) =>
-    typeof time === "string" ? new Date(time) : time;
+export const timeToDate = (time: Time, utc = true) =>
+    typeof time === "string"
+        ? new Date(utc ? (time.endsWith("Z") ? time : `${time}Z`) : time)
+        : time;
 
 export const isHourZero = (time: Time) => timeToDate(time).getUTCHours() === 0;

@@ -12,26 +12,20 @@ import {
     getDaysToNextWeekDay,
     getNextTimeByDay,
 } from "@/utils/time";
-import { useNavigate } from "@tanstack/react-router";
 
-export function DaySelect() {
-    const navigate = useNavigate();
+type DaySelectProps = {
+    value: number;
+    onValueChange: (value: number) => unknown;
+};
 
-    const handleDaySelect = (day: string) => {
-        navigate({
-            hash: getNextTimeByDay(Number(day)),
-            hashScrollIntoView: {
-                behavior: "smooth",
-                block: "start",
-                inline: "start",
-            },
-        });
-    };
-
+export function DaySelect({ value, onValueChange }: DaySelectProps) {
     return (
-        <Select onValueChange={handleDaySelect}>
+        <Select
+            value={String(value)}
+            onValueChange={(v) => onValueChange(Number(v))}
+        >
             <SelectTrigger>
-                <SelectValue placeholder="Wednesday" />
+                <SelectValue />
             </SelectTrigger>
             <SelectContent className="w-54" side="bottom" align="end">
                 {[...DAYS.entries()]

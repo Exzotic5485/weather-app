@@ -5,8 +5,11 @@ import {
     PopoverContent,
 } from "@/components/ui/popover";
 import { useGeocodeSearch } from "@/lib/queries";
+import { useDayStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { useDebounce } from "@/utils/debounce";
 import { type Location, formatLocationName } from "@/utils/location";
+import { getDay } from "@/utils/time";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { SearchIcon } from "lucide-react";
@@ -15,12 +18,14 @@ import { useState } from "react";
 export function LocationSearchInput() {
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState("");
+    const debouncedSearch = useDebounce(search);
 
-    const { data } = useGeocodeSearch(search);
+    const { data } = useGeocodeSearch(debouncedSearch);
     const queryClient = useQueryClient();
     const navigate = useNavigate();
+    const [, setDay] = useDayStore();
 
-    const handleLocationSelect = (location: Location) => {
+    const handleLocationSelect = (location: Location, closePopover = true) => {
         navigate({
             to: "/",
             search: {
@@ -31,7 +36,8 @@ export function LocationSearchInput() {
         queryClient.setQueryData(["location"], location);
 
         setSearch("");
-        setOpen(false);
+        setDay(getDay());
+        if (closePopover) setOpen(false);
     };
 
     return (
@@ -51,7 +57,7 @@ export function LocationSearchInput() {
                     onKeyDown={(e) =>
                         e.key.toLowerCase() === "enter" &&
                         data.length &&
-                        handleLocationSelect(data[0])
+                        handleLocationSelect(data[0], false)
                     }
                 />
             </PopoverAnchor>

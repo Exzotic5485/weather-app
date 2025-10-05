@@ -21,7 +21,7 @@ export function Input({
                 className={cn(
                     "peer bg-surface text-surface-foreground h-14 px-6 py-2 rounded-xl text-xl font-medium hover:bg-surface-hover placeholder:text-muted-foreground focus-visible:bg-surface-hover",
                     focusOutlineClass,
-                    Icon && "px-16",
+                    Icon && "pl-16",
                     className,
                 )}
                 {...props}

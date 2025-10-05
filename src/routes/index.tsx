@@ -1,9 +1,11 @@
 import { CurrentLocationButton } from "@/components/search/current-location-button";
 import { LocationSearchInput } from "@/components/search/location-search-input";
+import { SomethingWentWrong } from "@/components/something-went-wrong";
 import { DailyForecastGrid } from "@/components/weather/daily-forecast-grid";
 import { HourlyForecastCard } from "@/components/weather/hourly-forecast-card";
 import { WeatherForecastCard } from "@/components/weather/weather-forecast-card";
 import { WeatherForecastDetails } from "@/components/weather/weather-forecast-details";
+import { useLocation, useWeatherForecast } from "@/lib/queries";
 import { locationSchema } from "@/utils/location";
 import { createFileRoute } from "@tanstack/react-router";
 import * as v from "valibot";
@@ -27,9 +29,26 @@ export const Route = createFileRoute("/")({
 
         context.queryClient.setQueryData(["location"], search.location);
     },
+    errorComponent: () => <SomethingWentWrong className="mt-16" />,
 });
 
 function App() {
+    const { error: locationError } = useLocation();
+    const { error: forecastError } = useWeatherForecast();
+
+    if (locationError) {
+        return (
+            <SomethingWentWrong
+                message="We couldn't get your location (gps, ip or search input). Please try again in a few moments."
+                className="mt-16"
+            />
+        );
+    }
+
+    if (forecastError) {
+        return <SomethingWentWrong className="mt-16" />;
+    }
+
     return (
         <main className="wrapper pb-12 md:pb-20">
             <div className="py-16">
@@ -38,7 +57,7 @@ function App() {
                 </h1>
             </div>
             <div className="space-y-8 lg:space-y-12">
-                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mx-auto max-w-xl w-full">
+                <div className="flex items-center justify-center gap-2 md:gap-4 mx-auto max-w-xl w-full">
                     <LocationSearchInput />
                     <CurrentLocationButton />
                 </div>

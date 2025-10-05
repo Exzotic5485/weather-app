@@ -48,7 +48,7 @@ export function DailyForecastCard({
     return (
         <div
             className={cn(
-                "bg-surface py-4 px-2.5 rounded-3xl border flex flex-col items-center gap-4 hover:cursor-pointer select-none",
+                "bg-surface py-4 px-2.5 rounded-3xl border flex flex-col items-center gap-4",
                 selected &&
                     "ring-2 ring-primary outline-2 outline-primary/50 outline-offset-2",
             )}
